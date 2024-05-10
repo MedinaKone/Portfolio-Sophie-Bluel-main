@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #FFFEF8;
 }
 ol, ul {
 	list-style: none;
@@ -219,12 +220,65 @@ footer nav ul {
 }
 
 figure {
-    margin: 10px; /* Ajout d'un espacement entre les figures */
-    text-align: center; /* Centrer le texte des légendes */
+    margin: 10px; 
+    text-align: center; 
 }
 
 figcaption {
-    margin-top: 1px; /* Ajout d'un espace entre l'image et la légende */
-    color: #555; /* Couleur du texte de la légende */
-    font-size: 14px; /* Taille de la police pour la légende */
+    margin-top: 1px; 
+    color: #555; 
+    font-size: 14px; 
+}
+
+
+/***** LOGIN PAGE *****/
+main{
+	display: grid;
+	justify-content: center;
+}
+
+
+
+.login-title { 
+	display: flex;
+	justify-content: center;
+
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.email-form, .password-form {
+	display: flex;
+	flex-direction: column;
+	margin: 30px 0px 30px 0px;
+	gap: 10px;
+}
+
+input {
+	height: 49px;
+	border: 0px;
+	width: 379px;
+	box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
+}
+
+.login-button {
+	width: 179px;
+	height: 36px;
+	background-color: #1D6154;
+	color: white;
+	justify-self: center;
+	border-radius: 60px;
+	border: 0px;
+	font-family: 'syne';
+}
+
+.forgotten-password {
+	margin-top: 35px;
+	text-decoration: underline;
+	justify-self: center;
+	font-family: 'work sans';
 }
