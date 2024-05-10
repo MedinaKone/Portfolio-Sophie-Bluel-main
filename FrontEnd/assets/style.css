@@ -181,6 +181,8 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
@@ -237,7 +239,9 @@ main{
 	justify-content: center;
 }
 
-
+.login-link {
+	font-weight: bold;
+}
 
 .login-title { 
 	display: flex;
@@ -256,13 +260,14 @@ main{
 	flex-direction: column;
 	margin: 30px 0px 30px 0px;
 	gap: 10px;
+	
 }
 
-input {
+.email-form input, .password-form input{
 	height: 49px;
 	border: 0px;
 	width: 379px;
-	box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 .login-button {
@@ -281,4 +286,6 @@ input {
 	text-decoration: underline;
 	justify-self: center;
 	font-family: 'work sans';
+	color: black;
 }
+
