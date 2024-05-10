@@ -233,6 +233,13 @@ figcaption {
 }
 
 
+.index-page--login-link {
+	text-decoration: none;
+	color: black;
+}
+
+
+
 /***** LOGIN PAGE *****/
 main{
 	display: grid;
