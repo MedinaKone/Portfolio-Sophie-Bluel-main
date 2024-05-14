@@ -290,6 +290,16 @@ label {
 	margin-bottom: 37px;
 }
 
+/* Style pour le message d'erreur */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+	margin-bottom: 30px;
+	justify-self: center;
+}
+
+
 .login-button {
 	width: 179px;
 	height: 36px;
