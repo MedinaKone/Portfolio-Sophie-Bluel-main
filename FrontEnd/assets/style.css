@@ -238,6 +238,9 @@ figcaption {
 	color: black;
 }
 
+a {
+	text-decoration: none;
+}
 
 
 /***** LOGIN PAGE *****/
@@ -253,13 +256,18 @@ main{
 .login-title { 
 	display: flex;
 	justify-content: center;
+	margin-bottom: 37px;
 
 }
 
 .login-form {
-	display: flex;
+	display: grid;
 	flex-direction: column;
 	justify-content: center;
+}
+
+label {
+	margin-bottom: 7px;
 }
 
 .email-form, .password-form {
@@ -270,11 +278,16 @@ main{
 	
 }
 
-.email-form input, .password-form input{
+#email , #password {
 	height: 49px;
 	border: 0px;
 	width: 379px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 30px;
+}
+
+#password {
+	margin-bottom: 37px;
 }
 
 .login-button {
@@ -286,7 +299,13 @@ main{
 	border-radius: 60px;
 	border: 0px;
 	font-family: 'syne';
+	cursor: pointer;
 }
+
+.login-button a {
+	color: white;
+}
+
 
 .forgotten-password {
 	margin-top: 35px;
@@ -294,5 +313,16 @@ main{
 	justify-self: center;
 	font-family: 'work sans';
 	color: black;
+	margin-bottom: 355px;
 }
 
+.forgotten-password a {
+	color: black;
+}
+
+footer nav ul {
+	height: 60px;
+	background-color: white;
+	margin: 0px;
+	width: 100%;
+}

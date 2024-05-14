@@ -174,16 +174,6 @@ createCategoryButtonsAndDisplayImages();
 
 
 
-function test() {
-    let button = document.getElementById("session")
-    button.addEventListener("click", ()=>{
-        sessionStorage.setItem("token","Je m'appelle Médina KONE")
-        console.log("sessionStorage")
-    }); 
-}
-test()
-
-
 
 // Fonction pour assurer qu'un seul bouton est sélectionné à la fois
 function buttonSelection(selectedButton) {
@@ -212,6 +202,8 @@ function createButton(name, onClick) {
 
     return button;
 }
+
+
 
 
 

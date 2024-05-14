@@ -30,33 +30,29 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <h2 class="login-title">Log in</h2>
 
-        <section class="login-form">
-            <form action="" method="post" class="email-form">
-                <label for="email">E-mail</label>
-                <input type="e-mail" name="email" id="email">
-            </form>
+        <form id="login-form" class="login-form" action="../index.html" method="post">
+            <label for="email">E-mail</label>
+            <input type="email" name="email" id="email">
 
-            <form action="" method="post" class="password-form">
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password">
-            </form>
-        </section>
-        <button class="login-button">Se connecter</button>
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password">
 
+            <button type="submit" class="login-button" id="login-button">Se connecter</button>
+        </form>
         <p class="forgotten-password">
             <a href="#">Mot de passe oublié</a>
         </p>
-
     </main>
 
     <footer>
-		<nav>
-			<ul>
-				<li>Mentions Légales</li>
-			</ul>
-		</nav>
-	</footer>
+        <nav>
+            <ul>
+                <li>Mentions Légales</li>
+            </ul>
+        </nav>
+    </footer>
+    <script src="loginPage.js"></script>
+</body>
