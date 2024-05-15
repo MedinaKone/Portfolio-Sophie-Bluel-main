@@ -9,20 +9,30 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
-	<meta name="description" content="">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 
 </head>
 
 <body>
+	<div style="display: none;"  class="mode-edition-band">
+		<span class="pen-icon">
+        <i class="fa-regular fa-pen-to-square"></i>
+		</span>
+        <p class="mode-edition">Mode édition</p>
+    </div>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<li>
+				<li class="signin">
 					<a href ="LoginPage/loginpage.html" class="index-page--login-link"><label for=""></label>login</a> 
+				</li>
+				<li style="display: none;" class="signout">
+					logout
 				</li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
@@ -45,8 +55,18 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
+
+			<div class="mes-projets-title">
+				<h2>Mes Projets</h2>
+			<div style="display: none;"  class="modifier-button">
+				<span class="modifier-pen-icon">
+					<i class="fa-regular fa-pen-to-square"></i>
+				</span>
+				<p class="mes-projets-modifier-text">modifier</p>
+			</div>
+			</div>
 			
+
 			<div class="gallery">
 			</div>
 		

@@ -1,5 +1,56 @@
 const worksEndpoint = 'http://localhost:5678/api/';
 
+
+
+const signin = document.querySelector(".signin")
+
+const signout = document.querySelector(".signout")
+
+const modeEditionBand = document.querySelector(".mode-edition-band")
+
+const mesProjetsModifierText = document.querySelector(".mes-projets-modifier-text")
+
+const modifierButton = document.querySelector(".modifier-button")
+
+function loginIndex() {
+
+    if (sessionStorage.getItem('token')) {
+        signin.style.display = "none"
+        signout.style.display = "inherit"
+        modeEditionBand.style.display = "inherit"
+        mesProjetsModifierText.style.display = "inherit"
+        modifierButton.style.display = "inherit"
+    }
+}
+loginIndex()
+
+
+
+signout.addEventListener("click", ()=>{
+    sessionStorage.clear()
+    window.location.reload()
+})
+
+modeEditionBand.addEventListener("click", ()=>{
+    sessionStorage.clear()
+    window.location.reload()
+})
+
+mesProjetsModifierText.addEventListener("click", ()=>{
+    sessionStorage.clear()
+    window.location.reload()
+})
+
+
+modifierButton.addEventListener("click", ()=>{
+    sessionStorage.clear()
+    window.location.reload()
+})
+
+
+
+
+
 async function afficherCaptions() {
     try {
         // Récupérer les données de l'API
@@ -202,8 +253,5 @@ function createButton(name, onClick) {
 
     return button;
 }
-
-
-
 
 

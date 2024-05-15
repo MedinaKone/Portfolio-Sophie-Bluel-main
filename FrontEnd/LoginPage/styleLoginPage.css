@@ -1,7 +1,3 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -30,10 +26,6 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	background-color: #FFFEF8;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 }
 ol, ul {
 	list-style: none;
@@ -127,6 +119,7 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
+	margin-bottom: 1em;
 }
 .gallery {
 	width: 100%;
@@ -183,8 +176,6 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
-
-
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
@@ -233,160 +224,3 @@ figcaption {
     color: #555; 
     font-size: 14px; 
 }
-
-
-.index-page--login-link {
-	text-decoration: none;
-	color: black;
-}
-
-a {
-	text-decoration: none;
-}
-
-
-/***** LOGIN PAGE *****/
-main{
-	display: grid;
-	justify-content: center;
-}
-
-.login-link {
-	font-weight: bold;
-}
-
-.login-title { 
-	display: flex;
-	justify-content: center;
-	margin-bottom: 37px;
-
-}
-
-.login-form {
-	display: grid;
-	flex-direction: column;
-	justify-content: center;
-}
-
-label {
-	margin-bottom: 7px;
-}
-
-.email-form, .password-form {
-	display: flex;
-	flex-direction: column;
-	margin: 30px 0px 30px 0px;
-	gap: 10px;
-	
-}
-
-#email , #password {
-	height: 49px;
-	border: 0px;
-	width: 379px;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	margin-bottom: 30px;
-}
-
-#password {
-	margin-bottom: 37px;
-}
-
- .error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-	margin-bottom: 30px;
-	justify-self: center;
-}
-
-
-.login-button {
-	width: 179px;
-	height: 36px;
-	background-color: #1D6154;
-	color: white;
-	justify-self: center;
-	border-radius: 60px;
-	border: 0px;
-	font-family: 'syne';
-	cursor: pointer;
-}
-
-.login-button a {
-	color: white;
-}
-
-
-.forgotten-password {
-	margin-top: 35px;
-	text-decoration: underline;
-	justify-self: center;
-	font-family: 'work sans';
-	color: black;
-	margin-bottom: 355px;
-}
-
-.forgotten-password a {
-	color: black;
-}
-
-footer nav ul {
-	height: 60px;
-	background-color: white;
-	margin: 0px;
-	width: 100%;
-}
-
-
-
-/***** MODE EDITION *****/
-.mode-edition-band {
-	height: 59px;
-	background-color: black;
-	color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 21px;
-}
-
-i.fa-regular.fa-pen-to-square {
-	color: white;
-	font-size: 16px;
-}
-
-.mode-edition {
-	font-size: 16px;
-}
-
-
-.mes-projets-title {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 92px;
-}
-
-.modifier-button {
-	display: flex;
-	flex-direction: row;
-	position: sticky;
-	left: 846px;
-	gap: 10px;
-}
-
-.mes-projets-modifier-text {
-	color: black;
-	font-size: 14px;
-}
-
-.modifier-pen-icon{
-	font-size: 16px;
-}
-
-.signout {
-	font-weight: bold;
-	cursor: pointer;
-}
-
