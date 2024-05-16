@@ -351,13 +351,14 @@ footer nav ul {
 	gap: 21px;
 }
 
-i.fa-regular.fa-pen-to-square {
+.mode-edition-pen-icon {
 	color: white;
 	font-size: 16px;
 }
 
 .mode-edition {
 	font-size: 16px;
+
 }
 
 

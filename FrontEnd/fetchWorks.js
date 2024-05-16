@@ -32,19 +32,16 @@ signout.addEventListener("click", ()=>{
 })
 
 modeEditionBand.addEventListener("click", ()=>{
-    sessionStorage.clear()
-    window.location.reload()
+
 })
 
 mesProjetsModifierText.addEventListener("click", ()=>{
-    sessionStorage.clear()
-    window.location.reload()
+
 })
 
 
 modifierButton.addEventListener("click", ()=>{
-    sessionStorage.clear()
-    window.location.reload()
+
 })
 
 
