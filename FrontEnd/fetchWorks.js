@@ -259,6 +259,7 @@ function createButton(name, onClick) {
 
 /* MODALE */
 
+/*
 let modal = null
 
 const openModal = function (e) {
@@ -299,3 +300,97 @@ window.addEventListener('keydown', function (e) {
     }
 })
 
+*/
+
+/*AFFICHER LES IMAGES DANS LA MODALE */
+let modal = null;
+
+const openModal = function (e) {
+    e.preventDefault();
+    const target = document.querySelector(e.target.getAttribute('href'));
+    
+    if (!target) {
+        console.error('Modal target not found.');
+        return;
+    }
+
+    target.style.display = null;
+    target.removeAttribute('aria-hidden');
+    target.setAttribute('aria-modal', 'true');
+    modal = target;
+    
+    modal.addEventListener('click', closeModal);
+    modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
+    modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+
+    // Appeler chargerImagesGalerie() après avoir ouvert la modal
+    chargerImagesGalerie();
+};
+
+const closeModal = function (e) {
+    if (modal === null) return;
+    e.preventDefault();
+    modal.style.display = "none";
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('aria-modal');
+    modal.removeEventListener('click', closeModal);
+    modal.querySelector('.js-modal-close').removeEventListener('click', closeModal);
+    modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
+    modal = null;
+};
+
+const stopPropagation = function (e) {
+    e.stopPropagation();
+};
+
+// Ajouter un écouteur d'événements sur le déclencheur de la modal
+document.querySelectorAll('.js-modal').forEach(trigger => {
+    trigger.addEventListener('click', openModal);
+});
+
+async function chargerImagesGalerie() {
+    try {
+        // Récupérer les données de l'API
+        const response = await fetch("http://localhost:5678/api/works/");
+
+        // Vérifier si la réponse est correcte
+        if (!response.ok) {
+            throw new Error("Erreur lors de la récupération des données.");
+        }
+
+        // Convertir la réponse en tableau d'objets
+        const imageData = await response.json();
+
+        // Obtenir l'élément modal-gallery
+        const modalGallery = document.querySelector('#modal1 .modal-gallery');
+
+        if (!modalGallery) {
+            console.error("Élément modal-gallery introuvable.");
+            return;
+        }
+
+        // Vider la galerie avant d'ajouter de nouvelles images
+        modalGallery.innerHTML = '';
+
+        // Vérifier que `imageData` est un tableau
+        if (!Array.isArray(imageData) || imageData.length === 0) {
+            console.warn("Aucune donnée d'image à afficher.");
+            return;
+        }
+
+        // Parcourir les données pour afficher les images et leurs légendes
+        for (let i = 0; i < imageData.length; i++) {
+            const imageInfo = imageData[i];
+
+            // Créer l'élément image
+            const imageElement = document.createElement("img");
+            imageElement.src = imageInfo.imageUrl; // Source de l'image
+
+              
+            // Ajouter le <figure> à la modal-gallery
+            modalGallery.appendChild(imageElement);
+        }
+    } catch (error) {
+        console.error("Erreur dans chargerImagesGalerie :", error); // Gérer les erreurs
+    }
+}

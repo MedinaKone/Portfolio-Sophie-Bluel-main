@@ -420,9 +420,54 @@ footer nav ul {
 
 .modal-wrapper {
 	overflow: auto;
-	width: 600px;
-	max-width: calc(100vw - 20px);
-	max-height: calc(100vh - 20px);
-	padding: 20px;
+	width: 630px;
+	height: 688px;
+	max-width: calc(100vw - 105px);
+	max-height: calc(100vh - 105px);
+	padding: 105px;
 	background-color: white;
+	display: grid ;
+	justify-content: center;
+} 
+
+.js-modal-close {
+	background-color: white;
+	border: 0px;
+	font-size: 24px;
+	justify-self: flex-end;
+	cursor: pointer;
+}
+
+
+#titlemodal {
+	font-family: 'work sans';
+	font-size: 26px;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 46px;
+}
+
+.modal-gallery {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+#modal1 img {
+	width: 76.86px;
+	height: 102.57px;
+}
+	
+.add-picture {
+	width: 179px;
+	height: 36px;
+	background-color: #1D6154;
+	color: white;
+	justify-self: center;
+	border-radius: 60px;
+	border: 0px;
+	font-family: 'syne';
+	cursor: pointer;
+	margin-top: 106px;
+	justify-self: center;
 }

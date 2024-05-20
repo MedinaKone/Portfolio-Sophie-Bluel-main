@@ -46,3 +46,5 @@ function login() {
 // Appeler la fonction login pour activer les gestionnaires d'événements
 login();
 
+
+
