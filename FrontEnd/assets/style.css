@@ -127,6 +127,10 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
+	justify-content: center;
+	display: flex;
+	left: 624px;
+	position: sticky;
 }
 .gallery {
 	width: 100%;
@@ -369,13 +373,20 @@ footer nav ul {
 	margin-bottom: 92px;
 }
 
+.js-modal {
+	display: flex;
+	margin-left: 31px;
+	align-items: center;
+}
+
 .modifier-button {
 	display: flex;
 	flex-direction: row;
-	position: sticky;
+	position: absolute;
 	left: 846px;
 	gap: 10px;
 	cursor: pointer;
+	align-items: center;
 }
 
 .mes-projets-modifier-text {

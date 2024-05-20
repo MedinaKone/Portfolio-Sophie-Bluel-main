@@ -1,6 +1,7 @@
 const worksEndpoint = 'http://localhost:5678/api/';
 
 
+const modifierButton = document.querySelector(".modifier-button")
 
 const signin = document.querySelector(".signin")
 
@@ -10,7 +11,7 @@ const modeEditionBand = document.querySelector(".mode-edition-band")
 
 const mesProjetsModifierText = document.querySelector(".mes-projets-modifier-text")
 
-const modifierButton = document.querySelector(".modifier-button")
+const sectionFilters = document.querySelector(".filtres")
 
 function loginIndex() {
 
@@ -20,6 +21,7 @@ function loginIndex() {
         modeEditionBand.style.display = "inherit"
         mesProjetsModifierText.style.display = "inherit"
         modifierButton.style.display = "inherit"
+
     }
 }
 loginIndex()
@@ -40,10 +42,13 @@ mesProjetsModifierText.addEventListener("click", ()=>{
 })
 
 
-modifierButton.addEventListener("click", ()=>{
-
-})
-
+modifierButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const modalLink = document.querySelector('a[href="#modal1"]');
+    if (modalLink) {
+        modalLink.click(); // Trigger the click event on the link to open the modal
+    }
+});
 
 
 
