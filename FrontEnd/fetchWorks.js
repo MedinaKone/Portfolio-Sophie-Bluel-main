@@ -350,18 +350,11 @@ document.querySelectorAll('.js-modal').forEach(trigger => {
 
 async function chargerImagesGalerie() {
     try {
-        // Récupérer les données de l'API
         const response = await fetch("http://localhost:5678/api/works/");
-
-        // Vérifier si la réponse est correcte
         if (!response.ok) {
             throw new Error("Erreur lors de la récupération des données.");
         }
-
-        // Convertir la réponse en tableau d'objets
         const imageData = await response.json();
-
-        // Obtenir l'élément modal-gallery
         const modalGallery = document.querySelector('#modal1 .modal-gallery');
 
         if (!modalGallery) {
@@ -369,28 +362,47 @@ async function chargerImagesGalerie() {
             return;
         }
 
-        // Vider la galerie avant d'ajouter de nouvelles images
         modalGallery.innerHTML = '';
 
-        // Vérifier que `imageData` est un tableau
         if (!Array.isArray(imageData) || imageData.length === 0) {
             console.warn("Aucune donnée d'image à afficher.");
             return;
         }
 
-        // Parcourir les données pour afficher les images et leurs légendes
-        for (let i = 0; i < imageData.length; i++) {
-            const imageInfo = imageData[i];
+        imageData.forEach(imageInfo => {
+            // Créer un conteneur pour l'image et l'icône de poubelle
+            const imageContainer = document.createElement("div");
+            imageContainer.classList.add("image-container");
 
             // Créer l'élément image
             const imageElement = document.createElement("img");
-            imageElement.src = imageInfo.imageUrl; // Source de l'image
+            imageElement.src = imageInfo.imageUrl;
 
-              
-            // Ajouter le <figure> à la modal-gallery
-            modalGallery.appendChild(imageElement);
-        }
+            // Créer l'icône de poubelle
+            const trashIcon = document.createElement("i");
+            trashIcon.classList.add("fa-solid", "fa-trash-can", "trash-icon");
+
+            // Ajouter des écouteurs d'événements pour l'icône de poubelle
+            trashIcon.addEventListener('click', () => {
+                // Action à effectuer lors du clic sur l'icône de poubelle
+                // Par exemple : supprimer l'image
+                alert('Icon clicked!');
+                // Vous pouvez ajouter la logique de suppression ici
+            });
+
+            // Ajouter l'image et l'icône au conteneur
+            imageContainer.appendChild(imageElement);
+            imageContainer.appendChild(trashIcon);
+
+            // Ajouter le conteneur à la galerie
+            modalGallery.appendChild(imageContainer);
+        });
     } catch (error) {
-        console.error("Erreur dans chargerImagesGalerie :", error); // Gérer les erreurs
+        console.error("Erreur dans chargerImagesGalerie :", error);
     }
 }
+
+// Appeler la fonction pour charger les images quand le DOM est prêt
+document.addEventListener('DOMContentLoaded', () => {
+    chargerImagesGalerie();
+});

@@ -129,9 +129,9 @@ li:hover {
 	text-align: center;
 	justify-content: center;
 	display: flex;
-	left: 624px;
-	position: sticky;
+	margin-left: 150px;
 }
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -382,8 +382,6 @@ footer nav ul {
 .modifier-button {
 	display: flex;
 	flex-direction: row;
-	position: absolute;
-	left: 846px;
 	gap: 10px;
 	cursor: pointer;
 	align-items: center;
@@ -451,11 +449,27 @@ footer nav ul {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
+	border: 1px solid transparent;
+	width: 420px;
+	border-bottom: 1px solid #B3B3B3;
+	padding-bottom: 106px;
 }
 
 #modal1 img {
 	width: 76.86px;
 	height: 102.57px;
+}
+
+.trash-icon {
+	position: relative;
+	bottom: 85px;
+	right: 20px;
+	font-size: 11px;
+	color: white;
+	cursor: pointer;
+	background-color: black;
+	padding: 3px;
+	border-radius: 2px;
 }
 	
 .add-picture {
@@ -468,6 +482,6 @@ footer nav ul {
 	border: 0px;
 	font-family: 'syne';
 	cursor: pointer;
-	margin-top: 106px;
+	margin-top: 38px;
 	justify-self: center;
 }
