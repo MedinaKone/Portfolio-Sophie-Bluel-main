@@ -1,64 +1,48 @@
 const worksEndpoint = 'http://localhost:5678/api/';
 
 
-const modifierButton = document.querySelector(".modifier-button")
+// AFFICHER OU SUPPRIMER DES ELEMENTS SELON L'ETAT DE CONNEXION 
+const modifierButton = document.querySelector(".modifier-button");
+const signin = document.querySelector(".signin");
+const signout = document.querySelector(".signout");
+const modeEditionBand = document.querySelector(".mode-edition-band");
+const mesProjetsModifierText = document.querySelector(".mes-projets-modifier-text");
 
-const signin = document.querySelector(".signin")
-
-const signout = document.querySelector(".signout")
-
-const modeEditionBand = document.querySelector(".mode-edition-band")
-
-const mesProjetsModifierText = document.querySelector(".mes-projets-modifier-text")
-
-const sectionFilters = document.querySelector(".filtres")
-
+// Fonction pour vérifier l'état de connexion et ajuster l'affichage
 function loginIndex() {
-
     if (sessionStorage.getItem('token')) {
-        signin.style.display = "none"
-        signout.style.display = "inherit"
-        modeEditionBand.style.display = "inherit"
-        mesProjetsModifierText.style.display = "inherit"
-        modifierButton.style.display = "inherit"
-
+        signin.style.display = "none";
+        signout.style.display = "inherit";
+        modeEditionBand.style.display = "inherit";
+        mesProjetsModifierText.style.display = "inherit";
+        modifierButton.style.display = "inherit";
     }
 }
-loginIndex()
 
+loginIndex();
 
-
-signout.addEventListener("click", ()=>{
-    sessionStorage.clear()
-    window.location.reload()
-})
-
-modeEditionBand.addEventListener("click", ()=>{
-
-})
-
-mesProjetsModifierText.addEventListener("click", ()=>{
-
-})
-
+signout.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.reload();
+});
 
 modifierButton.addEventListener("click", (e) => {
     e.preventDefault();
     const modalLink = document.querySelector('a[href="#modal1"]');
     if (modalLink) {
-        modalLink.click(); // Trigger the click event on the link to open the modal
+        modalLink.click(); // Déclencher l'événement click sur le lien pour ouvrir le modal
     }
 });
 
 
 
+// AFFICHER LES IMAGES ET LEURS LEGENDES SANS LES FILTRES  
+
 
 async function afficherCaptions() {
     try {
         // Récupérer les données de l'API
-        const response = await fetch("http://localhost:5678/api/works/");
-
-        // Vérifier si la réponse est correcte
+        const response = await fetch(worksEndpoint + "works/");
         if (!response.ok) {
             throw new Error("Erreur lors de la récupération des données.");
         }
@@ -80,21 +64,22 @@ async function afficherCaptions() {
             return;
         }
 
+        // Vider la galerie avant d'ajouter de nouvelles images
+        sectionGallery.innerHTML = '';
+
         // Parcourir les données pour afficher les images et leurs légendes
-        for (let i = 0; i < imageData.length; i++) {
-            const imageInfo = imageData[i];
+        imageData.forEach(imageInfo => {
+            // Créer un élément <figure>
+            const figureElement = document.createElement("figure");
 
             // Créer l'élément image
             const imageElement = document.createElement("img");
             imageElement.src = imageInfo.imageUrl; // Source de l'image
             imageElement.alt = imageInfo.title || "Image"; // Texte alternatif
 
-            // Créer un élément <figure>
-            const figureElement = document.createElement("figure");
-
             // Ajouter l'image au <figure>
             figureElement.appendChild(imageElement);
-            
+
             // Créer la légende si nécessaire
             if (imageInfo.title) {
                 const captionElement = document.createElement("figcaption");
@@ -105,12 +90,11 @@ async function afficherCaptions() {
 
             // Ajouter le <figure> à la galerie
             sectionGallery.appendChild(figureElement);
-        }
+        });
     } catch (error) {
-        console.error("Erreur dans afficherCaptions :", error); // Gérer les erreurs
+        console.error("Erreur dans afficherCaptions :", error);
     }
 }
-
 
 // Appeler la fonction pour afficher les images et les légendes
 afficherCaptions();
@@ -119,34 +103,9 @@ afficherCaptions();
 
 
 
-function afficherSousCategories() {
-
-const worksEndpoint = "http://localhost:5678/api/categories"
-
-fetch(worksEndpoint)
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`Erreur: ${response.status} - ${response.statusText}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-        console.log('Données récupérées:', data);
-    })
-    .catch((error) => {
-        console.error('Erreur lors de la récupération des fichiers:', error);
-    });
-
-}
-afficherSousCategories()
-
-
-
-
-
-
 
 // Fonction pour afficher les images par catégorie
+/*
 function displayImagesByCategory(imageData, categoryId) {
     const sectionGallery = document.querySelector('.gallery');
     sectionGallery.innerHTML = ''; // Vider la galerie avant de réafficher
@@ -224,11 +183,10 @@ async function createCategoryButtonsAndDisplayImages() {
 
 // Appeler la fonction pour créer les boutons de filtres et afficher les images
 createCategoryButtonsAndDisplayImages();
+*/
 
 
-
-
-// Fonction pour assurer qu'un seul bouton est sélectionné à la fois
+// FONCTION POUR S'ASSURER QU'UN SEUL BOUTON EST SELECTIONNE A LA FOIS
 function buttonSelection(selectedButton) {
     const filterButtons = document.querySelectorAll('.filtres .button');
 
@@ -302,7 +260,13 @@ window.addEventListener('keydown', function (e) {
 
 */
 
-/*AFFICHER LES IMAGES DANS LA MODALE */
+
+
+
+
+
+
+// AFFICHER LES IMAGES DANS LA MODALE 
 let modal = null;
 
 const openModal = function (e) {
@@ -405,4 +369,108 @@ async function chargerImagesGalerie() {
 // Appeler la fonction pour charger les images quand le DOM est prêt
 document.addEventListener('DOMContentLoaded', () => {
     chargerImagesGalerie();
+});
+
+
+
+
+// ACCES VERS LA MODALE 2
+document.addEventListener('DOMContentLoaded', function() {
+    const modal1 = document.getElementById('modal1');
+    const modal2 = document.getElementById('modal2');
+    const addPictureLink = document.querySelector('.add-picture-link');
+    const closeButtons = document.querySelectorAll('.js-modal-close');
+
+    // Fonction pour afficher une modale
+    function openModal(modal) {
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    // Fonction pour fermer une modale
+    function closeModal(modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Gestion de l'ouverture de la modale 2
+    addPictureLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        closeModal(modal1);
+        openModal(modal2);
+    });
+
+    // Gestion de la fermeture des modales
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = button.closest('.modal');
+            closeModal(modal);
+        });
+    });
+
+    // Exemple d'ouverture de la première modale pour test
+    const openModal1 = document.querySelector('a[href="#modal1"]');
+    if (openModal1) {
+        openModal1.addEventListener('click', function(event) {
+            event.preventDefault();
+            openModal(modal1);
+        });
+    }
+});
+
+
+
+
+
+
+// RETOUR VERS LA MODAL 1
+document.addEventListener('DOMContentLoaded', function() {
+    const modal1 = document.getElementById('modal1');
+    const modal2 = document.getElementById('modal2');
+    const addPictureLink = document.querySelector('.add-picture-link');
+    const returnToModal1Link = document.querySelector('.return-to-modal1-link');
+    const closeButtons = document.querySelectorAll('.js-modal-close');
+
+    // Fonction pour afficher une modale
+    function openModal(modal) {
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    // Fonction pour fermer une modale
+    function closeModal(modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Gestion de l'ouverture de la modale 2
+    addPictureLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        closeModal(modal1);
+        openModal(modal2);
+    });
+
+    // Gestion du retour à la modale 1
+    returnToModal1Link.addEventListener('click', function(event) {
+        event.preventDefault();
+        closeModal(modal2);
+        openModal(modal1);
+    });
+
+    // Gestion de la fermeture des modales
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = button.closest('.modal');
+            closeModal(modal);
+        });
+    });
+
+    // Exemple d'ouverture de la première modale pour test
+    const openModal1 = document.querySelector('a[href="#modal1"]');
+    if (openModal1) {
+        openModal1.addEventListener('click', function(event) {
+            event.preventDefault();
+            openModal(modal1);
+        });
+    }
 });

@@ -88,22 +88,51 @@
 					
 					</div>
 
-					<button class="add-picture">Ajouter une photo</button>
-
+					<a href="#modal2" class="add-picture-link">
+						Ajouter une photo
+					</a>
+					
 
 				</div>
 
 					
 			</aside>
 
-
-
-
-
-
-
 			<div class="gallery">
 			</div>
+
+			
+
+			<aside id="modal2" class="modal" style="display: none;">
+				<div class="modal-wrapper js-modal-stop">
+					<div class="modal-header">
+						<a href="#modal1" class="return-to-modal1-link">
+							<i class="fa-solid fa-arrow-left"></i>
+						</a>
+						<button class="js-modal-close">
+							<i class="fa-solid fa-xmark"></i>
+						</button>
+					</div>
+					<h4 id="titlemodal-2">Ajout photo</h4>
+					<div class="add-picture-section">
+						<i class="fa-regular fa-image"></i>
+						<button class="add-picture-button">+ Ajouter photo</button>
+						<p class="pictures-caracteristics">jpg, png : 4mo max</p>
+					</div>
+				
+					<form id="new-picture" class="new-picture" method="post">
+						<label for="titre">Titre</label>
+						<input type="textarea" name="email" id="titre">
+				
+						<label for="categorie">Catégorie</label>
+						<input type="textarea" name="categorie" id="categorie">
+					</form>
+				
+					<button class="valider">Valider</button>
+				</div>				
+			</aside>
+
+
 
 		</section>
 		<section id="contact">
