@@ -117,20 +117,27 @@
 					<div class="add-picture-section">
 						<i class="fa-regular fa-image"></i>
 						<button class="add-picture-button">+ Ajouter photo</button>
+						<input type="file" accept="image/*" class="file-input" style="display: none;">
 						<p class="pictures-caracteristics">jpg, png : 4mo max</p>
+						<div class="pictures-preview"></div>
 					</div>
-				
+					<p class="error-message hidden-img" style="display: none;">Veuillez sélectionner un fichier image valide (jpg ou png) de taille maximale 4MB.</p>
+
+			
 					<form id="new-picture" class="new-picture" method="post">
 						<label for="titre">Titre</label>
 						<input type="textarea" name="email" id="titre">
-				
+			
 						<label for="categorie">Catégorie</label>
-						<input type="textarea" name="categorie" id="categorie">
+						<select name="categorie" id="categorie"><option value="">Sélectionner une catégorie</option></select> 
 					</form>
-				
+			
+					<p class="error-message hidden-form" style="display: none;">Veuillez sélectionner indiquer un titre et sélectionner une catégorie avant de valider.</p>
+					
 					<button class="valider">Valider</button>
-				</div>				
+				</div>              
 			</aside>
+			
 
 
 
