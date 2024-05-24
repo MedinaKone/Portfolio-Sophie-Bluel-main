@@ -37,8 +37,7 @@ modifierButton.addEventListener("click", (e) => {
 
 
 // AFFICHER LES IMAGES ET LEURS LEGENDES SANS LES FILTRES  
-
-
+/*
 async function afficherCaptions() {
     try {
         // Récupérer les données de l'API
@@ -98,14 +97,14 @@ async function afficherCaptions() {
 
 // Appeler la fonction pour afficher les images et les légendes
 afficherCaptions();
-
+*/
 
 
 
 
 
 // Fonction pour afficher les images par catégorie
-/*
+
 function displayImagesByCategory(imageData, categoryId) {
     const sectionGallery = document.querySelector('.gallery');
     sectionGallery.innerHTML = ''; // Vider la galerie avant de réafficher
@@ -183,7 +182,15 @@ async function createCategoryButtonsAndDisplayImages() {
 
 // Appeler la fonction pour créer les boutons de filtres et afficher les images
 createCategoryButtonsAndDisplayImages();
-*/
+
+
+
+
+
+
+
+
+
 
 
 // FONCTION POUR S'ASSURER QU'UN SEUL BOUTON EST SELECTIONNE A LA FOIS
@@ -311,6 +318,9 @@ const stopPropagation = function (e) {
 
 
 
+
+
+
 // Ajouter un écouteur d'événements sur le déclencheur de la modal
 document.querySelectorAll('.js-modal').forEach(trigger => {
     trigger.addEventListener('click', openModal);
@@ -324,6 +334,7 @@ async function chargerImagesGalerie() {
         }
         const imageData = await response.json();
         const modalGallery = document.querySelector('#modal1 .modal-gallery');
+        const mainGallery = document.querySelector('.gallery');
 
         if (!modalGallery) {
             console.error("Élément modal-gallery introuvable.");
@@ -337,36 +348,41 @@ async function chargerImagesGalerie() {
             return;
         }
 
-        imageData.forEach(imageInfo => {
-            // Créer un conteneur pour l'image et l'icône de poubelle
-            const imageContainer = document.createElement("div");
-            imageContainer.classList.add("image-container");
+        imageData.forEach((imageInfo) => {
+            // Créer un conteneur pour l'image et l'icône de poubelle dans la modale
+            const modalImageContainer = document.createElement("div");
+            modalImageContainer.classList.add("image-container");
 
             // Créer l'élément image
-            const imageElement = document.createElement("img");
-            imageElement.src = imageInfo.imageUrl;
+            const modalImageElement = document.createElement("img");
+            modalImageElement.src = imageInfo.imageUrl;
 
             // Créer l'icône de poubelle
             const trashIcon = document.createElement("i");
             trashIcon.classList.add("fa-solid", "fa-trash-can", "trash-icon");
 
-
-            /*
             // Ajouter des écouteurs d'événements pour l'icône de poubelle
             trashIcon.addEventListener('click', () => {
-                // Action à effectuer lors du clic sur l'icône de poubelle
-                // Par exemple : supprimer l'image
-                alert('Icon clicked!');
-                // Vous pouvez ajouter la logique de suppression ici
+                // Supprimer le conteneur de l'image de la modale
+                modalImageContainer.remove();
+
+                // Supprimer le conteneur de l'image de la galerie principale en utilisant l'URL de l'image
+                const mainImageContainer = Array.from(mainGallery.querySelectorAll('figure')).find(figure => {
+                    const img = figure.querySelector('img');
+                    return img && img.src === imageInfo.imageUrl;
+                });
+
+                if (mainImageContainer) {
+                    mainImageContainer.remove();
+                }
             });
-            */
 
-            // Ajouter l'image et l'icône au conteneur
-            imageContainer.appendChild(imageElement);
-            imageContainer.appendChild(trashIcon);
+            // Ajouter l'image et l'icône au conteneur de la modale
+            modalImageContainer.appendChild(modalImageElement);
+            modalImageContainer.appendChild(trashIcon);
 
-            // Ajouter le conteneur à la galerie
-            modalGallery.appendChild(imageContainer);
+            // Ajouter le conteneur à la galerie de la modale
+            modalGallery.appendChild(modalImageContainer);
         });
     } catch (error) {
         console.error("Erreur dans chargerImagesGalerie :", error);
@@ -377,6 +393,13 @@ async function chargerImagesGalerie() {
 document.addEventListener('DOMContentLoaded', () => {
     chargerImagesGalerie();
 });
+
+
+
+
+
+
+
 
 
 
@@ -1097,3 +1120,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+
+
+
+
+
+
