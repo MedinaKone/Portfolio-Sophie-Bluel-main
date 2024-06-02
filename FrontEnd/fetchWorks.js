@@ -36,68 +36,6 @@ modifierButton.addEventListener("click", (e) => {
 
 
 
-// AFFICHER LES IMAGES ET LEURS LEGENDES SANS LES FILTRES  
-/*
-async function afficherCaptions() {
-    try {
-        // Récupérer les données de l'API
-        const response = await fetch(worksEndpoint + "works/");
-        if (!response.ok) {
-            throw new Error("Erreur lors de la récupération des données.");
-        }
-
-        // Convertir la réponse en tableau d'objets
-        const imageData = await response.json();
-
-        // Obtenir la section de galerie une seule fois
-        const sectionGallery = document.querySelector('.gallery');
-
-        if (!sectionGallery) {
-            console.error("Section .gallery introuvable.");
-            return;
-        }
-
-        // Vérifier que `imageData` est un tableau
-        if (!Array.isArray(imageData) || imageData.length === 0) {
-            console.warn("Aucune donnée d'image à afficher.");
-            return;
-        }
-
-        // Vider la galerie avant d'ajouter de nouvelles images
-        sectionGallery.innerHTML = '';
-
-        // Parcourir les données pour afficher les images et leurs légendes
-        imageData.forEach(imageInfo => {
-            // Créer un élément <figure>
-            const figureElement = document.createElement("figure");
-
-            // Créer l'élément image
-            const imageElement = document.createElement("img");
-            imageElement.src = imageInfo.imageUrl; // Source de l'image
-            imageElement.alt = imageInfo.title || "Image"; // Texte alternatif
-
-            // Ajouter l'image au <figure>
-            figureElement.appendChild(imageElement);
-
-            // Créer la légende si nécessaire
-            if (imageInfo.title) {
-                const captionElement = document.createElement("figcaption");
-                captionElement.textContent = imageInfo.title; // Définir le texte de la légende
-
-                figureElement.appendChild(captionElement); // Ajouter la légende au <figure>
-            }
-
-            // Ajouter le <figure> à la galerie
-            sectionGallery.appendChild(figureElement);
-        });
-    } catch (error) {
-        console.error("Erreur dans afficherCaptions :", error);
-    }
-}
-
-// Appeler la fonction pour afficher les images et les légendes
-afficherCaptions();
-*/
 
 
 
@@ -223,54 +161,6 @@ function createButton(name, onClick) {
 
 
 /* MODALE */
-
-/*
-let modal = null
-
-const openModal = function (e) {
-    e.preventDefault()
-    const target = document.querySelector(e.target.getAttribute('href'))
-    target.style.display = null
-    target.removeAttribute('aria-hidden')
-    target.setAttribute('aria-modal', 'true')
-    modal = target
-    modal.addEventListener('click', closeModal)
-    modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
-    modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
-}
-
-const closeModal = function (e) {
-    if (modal === null) return
-    e.preventDefault()
-    modal.style.display = "none"
-    modal.setAttribute('aria-hidden', 'true')
-    modal.removeAttribute('aria-modal')
-    modal.removeEventListener('click', closeModal)
-    modal.querySelector('.js-modal-close').removeEventListener('click', closeModal)
-    modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
-    modal = null
-}
-
-const stopPropagation = function (e) {
-    e.stopPropagation()
-}
-
-document.querySelectorAll('.js-modal').forEach(a => {
-    a.addEventListener('click', openModal)
-})
-
-window.addEventListener('keydown', function (e) {
-    if (e.key === "Escape" || e.key === "Esc") {
-        closeModal(e)
-    }
-})
-
-*/
-
-
-
-
-
 
 
 // AFFICHER LES IMAGES DANS LA MODALE 
@@ -606,376 +496,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// AJOUTE L'IMAGE ET SA DESCRIPTION DANS LE PORTFOLIO
 
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.querySelector('.add-picture-button');
-    const fileInput = document.querySelector('.file-input');
-    const picturesPreview = document.querySelector('.pictures-preview');
-    const icon = document.querySelector('.fa-image');
-    const text = document.querySelector('.pictures-caracteristics');
-    const errorMessage = document.querySelector('.error-message');
-    const gallery = document.querySelector('.gallery');
-    const validerButton = document.querySelector('.valider');
-    const titreInput = document.getElementById('titre');
-    
-    let selectedImage = null;
 
-    addButton.addEventListener('click', function() {
-        fileInput.click();
-    });
 
-    fileInput.addEventListener('change', function() {
-        const file = fileInput.files[0];
-        if (file && (file.type === 'image/jpeg' || file.type === 'image/png') && file.size <= 4 * 1024 * 1024) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Create an image element
-                const img = document.createElement('img');
-                img.src = e.target.result;
 
 
-                // Clear the preview container and add the new image
-                picturesPreview.innerHTML = '';
-                picturesPreview.appendChild(img);
 
-                // Hide the icon, text, and button
-                icon.classList.add('hidden');
-                text.classList.add('hidden');
-                addButton.classList.add('hidden');
-
-                // Hide the error message if the file is valid
-                errorMessage.classList.add('hidden');
-
-                // Store the selected image
-                selectedImage = img;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            // Show the error message if the file is invalid
-            errorMessage.classList.remove('hidden');
-        }
-    });
-
-    validerButton.addEventListener('click', function() {
-        const titre = titreInput.value.trim();
-        if (selectedImage && titre) {
-            // Create a figure element
-            const figure = document.createElement('figure');
-
-            // Clone the selected image and adjust its size for the gallery
-            const galleryImage = selectedImage.cloneNode(true);
-            galleryImage.style.width = '346.66px';
-            galleryImage.style.height = '461.83px';
-
-            // Create a figcaption element and set its content
-            const figcaption = document.createElement('figcaption');
-            figcaption.textContent = titre;
-
-            // Append the image and caption to the figure
-            figure.appendChild(galleryImage);
-            figure.appendChild(figcaption);
-
-            // Append the figure to the gallery
-            gallery.appendChild(figure);
-
-            // Close modal2
-            const modal2 = document.getElementById('modal2');
-            modal2.style.display = 'none';
-
-            // Reset the form and preview for the next addition
-            picturesPreview.innerHTML = '';
-            icon.classList.remove('hidden');
-            text.classList.remove('hidden');
-            addButton.classList.remove('hidden');
-            titreInput.value = '';
-            fileInput.value = '';
-            selectedImage = null;
-        } else {
-            alert('Veuillez sélectionner une image et entrer un titre avant de valider.');
-        }
-    });
-});
-
-*/
-
-
-
-
-
-
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.querySelector('.add-picture-button');
-    const fileInput = document.querySelector('.file-input');
-    const picturesPreview = document.querySelector('.pictures-preview');
-    const icon = document.querySelector('.fa-image');
-    const text = document.querySelector('.pictures-caracteristics');
-    const errorMessageImage = document.querySelector('.error-message-image');
-    const errorMessageForm = document.querySelector('.error-message-form');
-    const gallery = document.querySelector('.gallery');
-    const validerButton = document.querySelector('.valider');
-    const titreInput = document.getElementById('titre');
-    const categorieSelect = document.getElementById('categorie');
-
-    let selectedImage = null;
-
-    // Fonction pour vérifier l'état des champs et activer/désactiver le bouton "Valider"
-    function checkFormValidity() {
-        const titre = titreInput.value.trim();
-        const categorie = categorieSelect.value;
-        const isImageSelected = !!selectedImage;
-        const isTitreValid = titre !== '';
-        const isCategorieValid = categorie !== '';
-        const isImageValid = isImageSelected && selectedImage.complete && selectedImage.naturalWidth > 0 && selectedImage.naturalHeight > 0;
-
-        // Vérifie si tous les champs sont remplis et valides
-        const isFormValid = isImageValid && isTitreValid && isCategorieValid;
-
-        // Change la couleur du bouton "Valider" en vert si le formulaire est valide
-        validerButton.style.backgroundColor = isFormValid ? '#1D6154' : '';
-
-        // Affiche les messages d'erreur appropriés en fonction de l'état du formulaire
-        errorMessageImage.classList.toggle('hidden', isImageValid);
-        errorMessageForm.classList.toggle('hidden', isFormValid);
-
-        // Active ou désactive le bouton "Valider" en fonction de l'état du formulaire
-        validerButton.disabled = !isFormValid;
-    }
-
-    addButton.addEventListener('click', function() {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', function() {
-        const file = fileInput.files[0];
-        if (file && (file.type === 'image/jpeg' || file.type === 'image/png') && file.size <= 4 * 1024 * 1024) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.width = '129px';
-                img.style.height = '169px'; // Ajustement de la hauteur à 169px
-
-                picturesPreview.innerHTML = '';
-                picturesPreview.appendChild(img);
-
-                icon.classList.add('hidden');
-                text.classList.add('hidden');
-                addButton.classList.add('hidden');
-
-                selectedImage = img;
-
-                // Vérifie la validité du formulaire après la sélection de l'image
-                checkFormValidity();
-            };
-            reader.readAsDataURL(file);
-        } else {
-            errorMessageImage.textContent = 'Veuillez sélectionner une image valide (jpg ou png) de taille maximale 4MB.';
-            errorMessageImage.classList.remove('hidden');
-            errorMessageForm.classList.add('hidden');
-            validerButton.style.backgroundColor = ''; // Réinitialise la couleur du bouton
-            validerButton.disabled = true; // Désactive le bouton
-        }
-    });
-
-    validerButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Empêche l'envoi du formulaire
-
-        const titre = titreInput.value.trim();
-        const categorie = categorieSelect.value;
-        if (selectedImage && titre !== '' && categorie !== '') {
-            const figure = document.createElement('figure');
-
-            const galleryImage = selectedImage.cloneNode(true);
-            galleryImage.style.width = '346.66px';
-            galleryImage.style.height = '461.83px';
-            figure.appendChild(galleryImage);
-
-            const figcaption = document.createElement('figcaption');
-            figcaption.textContent = titre;
-
-            figure.appendChild(figcaption);
-
-            gallery.appendChild(figure);
-
-            const modal2 = document.getElementById('modal2');
-            modal2.style.display = 'none';
-
-            picturesPreview.innerHTML = '';
-            icon.classList.remove('hidden');
-            text.classList.remove('hidden');
-            addButton.classList.remove('hidden');
-            titreInput.value = '';
-            fileInput.value = '';
-            selectedImage = null;
-
-            // Réinitialise les messages d'erreur
-            errorMessageImage.classList.add('hidden');
-            errorMessageForm.classList.add('hidden');
-
-            // Vérifie la validité du formulaire après l'ajout de l'image
-            checkFormValidity();
-        } else {
-            errorMessageForm.classList.remove('hidden');
-            errorMessageImage.classList.add('hidden');
-            validerButton.style.backgroundColor = ''; // Réinitialise la couleur du bouton
-            validerButton.disabled = true; // Désactive le bouton
-        }
-    });
-
-    // Écouteurs d'événements pour vérifier la validité du formulaire lorsque les champs sont modifiés
-    titreInput.addEventListener('input', checkFormValidity);
-    categorieSelect.addEventListener('change', checkFormValidity);
-});
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.querySelector('.add-picture-button');
-    const fileInput = document.querySelector('.file-input');
-    const picturesPreview = document.querySelector('.pictures-preview');
-    const icon = document.querySelector('.fa-image');
-    const text = document.querySelector('.pictures-caracteristics');
-    const errorMessageImage = document.querySelector('.error-message.hidden-img');
-    const errorMessageForm = document.querySelector('.error-message.hidden-form');
-    const gallery = document.querySelector('.gallery');
-    const validerButton = document.querySelector('.valider');
-    const titreInput = document.getElementById('titre');
-    const categorieSelect = document.getElementById('categorie');
-
-    let selectedImage = null;
-
-    // Fonction pour vérifier l'état des champs et activer/désactiver le bouton "Valider"
-    function checkFormValidity() {
-        const titre = titreInput.value.trim();
-        const categorie = categorieSelect.value;
-        const isImageSelected = !!selectedImage;
-        const isTitreValid = titre !== '';
-        const isCategorieValid = categorie !== '';
-        const isImageValid = isImageSelected && selectedImage.complete && selectedImage.naturalWidth > 0 && selectedImage.naturalHeight > 0;
-
-        // Vérifie si tous les champs sont remplis et valides
-        const isFormValid = isImageValid && isTitreValid && isCategorieValid;
-
-        // Affiche les messages d'erreur appropriés uniquement si les conditions ne sont pas remplies
-        errorMessageImage.classList.toggle('hidden', isImageValid);
-        errorMessageForm.classList.toggle('hidden', isTitreValid && isCategorieValid);
-
-        // Change la couleur du bouton "Valider" en vert si le formulaire est valide
-        validerButton.style.backgroundColor = isFormValid ? '#1D6154' : '';
-
-        // Active ou désactive le bouton "Valider" en fonction de l'état du formulaire
-        validerButton.disabled = !isFormValid;
-    }
-
-    addButton.addEventListener('click', function() {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', function() {
-        const file = fileInput.files[0];
-        if (file && (file.type === 'image/jpeg' || file.type === 'image/png') && file.size <= 4 * 1024 * 1024) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.width = '129px';
-                img.style.height = '169px'; // Ajustement de la hauteur à 169px
-
-                picturesPreview.innerHTML = '';
-                picturesPreview.appendChild(img);
-
-                icon.classList.add('hidden');
-                text.classList.add('hidden');
-                addButton.classList.add('hidden');
-
-                selectedImage = img;
-
-                // Vérifie la validité du formulaire après la sélection de l'image
-                checkFormValidity();
-            };
-            reader.readAsDataURL(file);
-        } else {
-            errorMessageImage.textContent = 'Veuillez sélectionner une image valide (jpg ou png) de taille maximale 4MB.';
-            errorMessageImage.classList.toggle('hidden', file === null);
-            errorMessageForm.classList.add('hidden');
-            validerButton.style.backgroundColor = ''; // Réinitialise la couleur du bouton
-            validerButton.disabled = true; // Désactive le bouton
-        }
-    });
-
-    validerButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Empêche l'envoi du formulaire
-
-        const titre = titreInput.value.trim();
-        const categorie = categorieSelect.value;
-        if (selectedImage && titre !== '' && categorie !== '') {
-            const figure = document.createElement('figure');
-
-            const galleryImage = selectedImage.cloneNode(true);
-            galleryImage.style.width = '346.66px';
-            galleryImage.style.height = '461.83px';
-            figure.appendChild(galleryImage);
-
-            const figcaption = document.createElement('figcaption');
-            figcaption.textContent = titre;
-
-            figure.appendChild(figcaption);
-
-            gallery.appendChild(figure);
-
-            const modal2 = document.getElementById('modal2');
-            modal2.style.display = 'none';
-
-            picturesPreview.innerHTML = '';
-            icon.classList.remove('hidden');
-            text.classList.remove('hidden');
-            addButton.classList.remove('hidden');
-            titreInput.value = '';
-            fileInput.value = '';
-            selectedImage = null;
-
-            // Réinitialise les messages d'erreur
-            errorMessageImage.classList.add('hidden');
-            errorMessageForm.classList.add('hidden');
-
-            // Vérifie la validité du formulaire après l'ajout de l'image
-            checkFormValidity();
-        } else {
-            errorMessageForm.classList.toggle('hidden', !(titre === '' && categorie === ''));
-            errorMessageImage.classList.add('hidden');
-            validerButton.style.backgroundColor = ''; // Réinitialise la couleur du bouton
-            validerButton.disabled = true; // Désactive le bouton
-        }
-    });
-
-    // Écouteurs d'événements pour vérifier la validité du formulaire lorsque les champs sont modifiés
-    titreInput.addEventListener('input', checkFormValidity);
-    categorieSelect.addEventListener('change', checkFormValidity);
-});
-
-*/
-
-
-
-
-
-
-
+// VALIDATION DU FORMULAIRE
 
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.querySelector('.add-picture-button');
@@ -1129,3 +656,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+
+// ENVOI DU PROJET VERS L'API
+
+function addProject(event) {
+    event.preventDefault();
+    console.log('addProject called');
+
+    const addProjetForm = document.querySelector('.new-picture');
+
+    const token = sessionStorage.getItem("Token");
+    console.log('token:', token);
+
+    const titleNewProject = document.getElementById("titre").value;
+    const categoryNewProject = parseInt(document.getElementById("categorie").value, 10);
+    const imageNewProject = document.getElementById("pictures-preview").files[0];
+
+    if (!titleNewProject || !categoryNewProject || !imageNewProject) {
+        console.error('All fields are required.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", titleNewProject);
+    formData.append("category", categoryNewProject);
+    formData.append('image', imageNewProject);
+    console.log('formData:', formData);
+
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la requête : ' + response.status);
+        }
+        return response.json(); 
+    })
+    .then(data => {
+        
+        console.log('Projet ajouté avec succès:', data);
+      
+    })
+    .catch(error => {
+        
+        console.error('Erreur lors de l\'envoi du projet :', error);
+    });
+}
+
+
+document.querySelector('.new-picture').addEventListener('submit', addProject);
