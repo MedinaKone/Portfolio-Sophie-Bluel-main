@@ -47,10 +47,16 @@ function displayImagesByCategory(imageData, categoryId) {
     const sectionGallery = document.querySelector('.gallery');
     sectionGallery.innerHTML = ''; // Vider la galerie avant de réafficher
 
-    const filteredImages = categoryId === 'Tous'
-        ? imageData // Afficher tous les éléments
-        : imageData.filter(image => image.categoryId === categoryId); // Filtrer par `categoryId`
+    //Filtrage des images
+    let filteredImages;
 
+    if (categoryId === 'Tous') {
+        filteredImages = imageData; // Afficher tous les éléments
+    } else {
+        filteredImages = imageData.filter(image => image.categoryId === categoryId); // Filtrer par `categoryId`
+    }
+
+    //Boucle pour afficher les images
     filteredImages.forEach(image => {
         const figureElement = document.createElement("figure");
 
@@ -70,28 +76,29 @@ function displayImagesByCategory(imageData, categoryId) {
     });
 }
 
-// Fonction pour créer un bouton avec un gestionnaire d'événements
-function createButton(name, onClick) {
-    const button = document.createElement("button");
-    button.innerText = name; // Nom affiché sur le bouton
-    button.classList.add("button");
-    button.addEventListener("click", onClick); // Ajouter le gestionnaire d'événements
-    return button;
-}
+
+
+
+
+
 
 // Fonction asynchrone pour créer les boutons de filtres et afficher les images
 async function createCategoryButtonsAndDisplayImages() {
     try {
+        //Récupération des données de l'API
         const categoryResponse = await fetch(worksEndpoint + 'categories');
         const worksResponse = await fetch(worksEndpoint + 'works');
 
+        //Vérification des réponses
         if (!categoryResponse.ok || !worksResponse.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
 
+        //Conversion des réponses en JSON
         const categories = await categoryResponse.json();
         const imageData = await worksResponse.json();
 
+        //Sélection de la section "portfolio" où les boutons et images seront affichées
         const sectionPortfolio = document.querySelector('#portfolio');
 
         // Créer un conteneur pour les boutons
@@ -102,7 +109,7 @@ async function createCategoryButtonsAndDisplayImages() {
         const allButton = createButton("Tous", () => displayImagesByCategory(imageData, 'Tous'));
         divButton.appendChild(allButton);
 
-        // Ajouter des boutons pour chaque catégorie par `id`
+        // Création et ajout des boutons pour chaque catégories
         categories.forEach(category => {
             const categoryButton = createButton(category.name, () => displayImagesByCategory(imageData, category.id));
             divButton.appendChild(categoryButton);
@@ -113,6 +120,7 @@ async function createCategoryButtonsAndDisplayImages() {
         // Afficher tous les éléments par défaut ("Tous")
         displayImagesByCategory(imageData, 'Tous');
 
+        //Signalement d'une erreur
     } catch (error) {
         console.error("Erreur lors de la création des boutons ou de l'affichage des images :", error);
     }
@@ -151,7 +159,7 @@ function createButton(name, onClick) {
     button.classList.add("button"); // Classe par défaut des boutons
 
     // Ajouter un gestionnaire de clics qui utilise `buttonSelection`
-    button.addEventListener("click", function() {
+    button.addEventListener("click", function () {
         buttonSelection(this); // Marque ce bouton comme sélectionné
         onClick(); // Exécute la fonction de filtre
     });
@@ -160,38 +168,40 @@ function createButton(name, onClick) {
 }
 
 
-/* MODALE */
+/* MODALE 1*/
 
 
-// AFFICHER LES IMAGES DANS LA MODALE 
+// OUVERTURE ET FERMETURE DE LA MODALE
 
 let modal = null;
 
+//Ouverture de la modale 1
 const openModal = function (e) {
     e.preventDefault();
     const target = document.querySelector(e.target.getAttribute('href'));
-    
+
+    //Signalement d'une erreur
     if (!target) {
         console.error('Modal target not found.');
         return;
     }
 
+    //Rend la modale visible
     target.style.display = null;
     target.removeAttribute('aria-hidden');
     target.setAttribute('aria-modal', 'true');
     modal = target;
-    
-    modal.addEventListener('click', closeModal);
-    modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
-    modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
 
     // Appeler chargerImagesGalerie() après avoir ouvert la modal
     chargerImagesGalerie();
 };
 
+
+//Fermeture de la modale 
 const closeModal = function (e) {
     if (modal === null) return;
     e.preventDefault();
+    //Rendre la modale invisble
     modal.style.display = "none";
     modal.setAttribute('aria-hidden', 'true');
     modal.removeAttribute('aria-modal');
@@ -211,33 +221,42 @@ const stopPropagation = function (e) {
 
 
 
+// AFFICHAGE ET SUPPRESSION DES PROJETS DANS LA MODALE 1
 // Ajouter un écouteur d'événements sur le déclencheur de la modal
 document.querySelectorAll('.js-modal').forEach(trigger => {
     trigger.addEventListener('click', openModal);
 });
 
+// CHARGER LES PROJETS DANS LA MODALE
 async function chargerImagesGalerie() {
+    // Récupère les données depuis l'API
     try {
         const response = await fetch("http://localhost:5678/api/works/");
         if (!response.ok) {
             throw new Error("Erreur lors de la récupération des données.");
         }
         const imageData = await response.json();
+
+        //Sélection des sections où les images seront affichées
         const modalGallery = document.querySelector('#modal1 .modal-gallery');
         const mainGallery = document.querySelector('.gallery');
 
+        //Vérifie que les éléments existent
         if (!modalGallery) {
             console.error("Élément modal-gallery introuvable.");
             return;
         }
 
+        //Vide la galerie
         modalGallery.innerHTML = '';
 
+        //Vérifie s'il y a des données à afficher
         if (!Array.isArray(imageData) || imageData.length === 0) {
             console.warn("Aucune donnée d'image à afficher.");
             return;
         }
 
+        // Création du projet
         imageData.forEach((imageInfo) => {
             // Créer un conteneur pour l'image et l'icône de poubelle dans la modale
             const modalImageContainer = document.createElement("div");
@@ -256,12 +275,17 @@ async function chargerImagesGalerie() {
                 // Supprimer le conteneur de l'image de la modale
                 modalImageContainer.remove();
 
+                //SUPPRIMER UN PROJET
                 // Supprimer le conteneur de l'image de la galerie principale en utilisant l'URL de l'image
+                //Sélectionne les éléments et les convertit en tableau
                 const mainImageContainer = Array.from(mainGallery.querySelectorAll('figure')).find(figure => {
+
+                    //Trouve le bon conteneur
                     const img = figure.querySelector('img');
                     return img && img.src === imageInfo.imageUrl;
                 });
 
+                //Suppression du conteneur
                 if (mainImageContainer) {
                     mainImageContainer.remove();
                 }
@@ -295,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ACCES VERS LA MODALE 2
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const modal1 = document.getElementById('modal1');
     const modal2 = document.getElementById('modal2');
     const addPictureLink = document.querySelector('.add-picture-link');
@@ -313,8 +337,8 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.setAttribute('aria-hidden', 'true');
     }
 
-    // Gestion de l'ouverture de la modale 2
-    addPictureLink.addEventListener('click', function(event) {
+    //Ferme la modale 1 et ouvre la modale 2
+    addPictureLink.addEventListener('click', function (event) {
         event.preventDefault();
         closeModal(modal1);
         openModal(modal2);
@@ -322,20 +346,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestion de la fermeture des modales
     closeButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const modal = button.closest('.modal');
             closeModal(modal);
         });
     });
-
-    // Exemple d'ouverture de la première modale pour test
-    const openModal1 = document.querySelector('a[href="#modal1"]');
-    if (openModal1) {
-        openModal1.addEventListener('click', function(event) {
-            event.preventDefault();
-            openModal(modal1);
-        });
-    }
 });
 
 
@@ -343,8 +358,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
 // RETOUR VERS LA MODAL 1
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
     const modal1 = document.getElementById('modal1');
     const modal2 = document.getElementById('modal2');
     const addPictureLink = document.querySelector('.add-picture-link');
@@ -364,14 +385,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Gestion de l'ouverture de la modale 2
-    addPictureLink.addEventListener('click', function(event) {
+    addPictureLink.addEventListener('click', function (event) {
         event.preventDefault();
         closeModal(modal1);
         openModal(modal2);
     });
 
     // Gestion du retour à la modale 1
-    returnToModal1Link.addEventListener('click', function(event) {
+    returnToModal1Link.addEventListener('click', function (event) {
         event.preventDefault();
         closeModal(modal2);
         openModal(modal1);
@@ -379,20 +400,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestion de la fermeture des modales
     closeButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const modal = button.closest('.modal');
             closeModal(modal);
         });
     });
 
-    // Exemple d'ouverture de la première modale pour test
-    const openModal1 = document.querySelector('a[href="#modal1"]');
-    if (openModal1) {
-        openModal1.addEventListener('click', function(event) {
-            event.preventDefault();
-            openModal(modal1);
-        });
-    }
 });
 
 
@@ -406,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // AJOUTER UNE IMAGE DANS LA MODALE 2
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.querySelector('.add-picture-button');
     const fileInput = document.querySelector('.file-input');
     const picturesPreview = document.querySelector('.pictures-preview');
@@ -414,34 +427,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const text = document.querySelector('.pictures-caracteristics');
     const errorMessage = document.querySelector('.error-message');
 
-    addButton.addEventListener('click', function() {
+    //Ouvre la fenêtre de sélection de fichiers
+    addButton.addEventListener('click', function () {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', function() {
-        const file = fileInput.files[0];
+    fileInput.addEventListener('change', function () {
+        const file = fileInput.files[0]; // Récupère le 1er fichier sélectionné
+
+        //Vérifie si le fichier est une image JPEG ou PNG et s'il est inférieur à 4 Mo.
         if (file && (file.type === 'image/jpeg' || file.type === 'image/png') && file.size <= 4 * 1024 * 1024) {
+            //Lance le fichier s'il est valide
             const reader = new FileReader();
-            reader.onload = function(e) {
-                // Create an image element
+            reader.onload = function (e) {
+                // Créer un élément image
                 const img = document.createElement('img');
                 img.src = e.target.result;
 
-                // Clear the preview container and add the new image
+                // Supprime le contenu précédent et affiche la nouvelle image
                 picturesPreview.innerHTML = '';
                 picturesPreview.appendChild(img);
 
-                // Hide the icon, text, and button
+                // Cache l'icône, le texte et le bouton
                 icon.classList.add('hidden');
                 text.classList.add('hidden');
                 addButton.classList.add('hidden');
 
-                // Hide the error message if the file is valid
+                // Cache le message d'erreur si le fichier est valide
                 errorMessage.classList.add('hidden');
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file); //Démarre la lecture du fichier
         } else {
-            // Show the error message if the file is invalid
+            // Affiche le message d'erreur si le fichier n'est pas valide
             errorMessage.classList.remove('hidden');
         }
     });
@@ -454,10 +471,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // RECUPERER LES CATEGORIES (MODALE 2)
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    //Recherche l'id "categorie" dans le formulaire
     const categoriesSelect = document.getElementById('categorie');
 
-    // Fonction pour récupérer les catégories depuis l'API
+    // Récupère les catégories depuis l'API
     function fetchCategories() {
         fetch(worksEndpoint + 'categories')
             .then(response => {
@@ -477,10 +495,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fonction pour remplir le select avec les catégories
     function populateCategories(categories) {
         categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id; // Supposons que chaque catégorie a un id
-            option.textContent = category.name;
-            categoriesSelect.appendChild(option);
+            const option = document.createElement('option'); //Créé un élément option
+            option.value = category.id; //Récupère l'id de la categorie
+            option.textContent = category.name; // Définit le texte visible de chaque option
+            categoriesSelect.appendChild(option); // Ajoute chaque option dans le formulaire
         });
     }
 
@@ -504,7 +522,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // VALIDATION DU FORMULAIRE
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.querySelector('.add-picture-button');
     const fileInput = document.querySelector('.file-input');
     const picturesPreview = document.querySelector('.pictures-preview');
@@ -521,12 +539,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fonction pour vérifier l'état des champs et activer/désactiver le bouton "Valider"
     function checkFormValidity() {
-        const titre = titreInput.value.trim();
+        const titre = titreInput.value.trim(); //Suppression des espaces inutiles
         const categorie = categorieSelect.value;
         const isImageSelected = !!selectedImage;
         const isTitreValid = titre !== '';
         const isCategorieValid = categorie !== '';
-        const isImageValid = isImageSelected && selectedImage.complete && selectedImage.naturalWidth > 0 && selectedImage.naturalHeight > 0;
+        const isImageValid = isImageSelected && selectedImage.complete && selectedImage.naturalWidth > 0 && selectedImage.naturalHeight > 0; //Vérfie qu'il s'agit bien d'une image
 
         // Vérifie si tous les champs sont remplis et valides
         const isFormValid = isImageValid && isTitreValid && isCategorieValid;
@@ -536,21 +554,27 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessageForm.style.display = (isTitreValid && isCategorieValid) || (!isTitreValid && !isCategorieValid) ? 'none' : 'block';
 
         // Change la couleur du bouton "Valider" en vert si le formulaire est valide
-        validerButton.style.backgroundColor = isFormValid ? '#1D6154' : '';
+        if (isFormValid) {
+            validerButton.classList.add('valid-form');
+        } else {
+            validerButton.classList.remove('valid-form');
+        }
 
         // Active ou désactive le bouton "Valider" en fonction de l'état du formulaire
         validerButton.disabled = !isFormValid;
     }
 
-    addButton.addEventListener('click', function() {
+    // Ouvre l'explorateur de fichiers
+    addButton.addEventListener('click', function () {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', function() {
+    fileInput.addEventListener('change', function () {
         const file = fileInput.files[0];
+        // Vérfie les caractéristiques du fichier
         if (file && (file.type === 'image/jpeg' || file.type === 'image/png') && file.size <= 4 * 1024 * 1024) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.style.width = '129px';
@@ -587,11 +611,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    validerButton.addEventListener('click', function(event) {
+    validerButton.addEventListener('click', function (event) {
         event.preventDefault(); // Empêche l'envoi du formulaire
 
         const titre = titreInput.value.trim();
         const categorie = categorieSelect.value;
+
+        //Vérifie les 3 conditions lorsqu'on clique sur le bouton "valider"
         if (selectedImage && titre !== '' && categorie !== '') {
             const figure = document.createElement('figure');
 
@@ -639,7 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Réinitialiser les messages d'erreur lorsque la modal s'ouvre
     document.querySelectorAll('a[href="#modal2"]').forEach(modal2Link => {
-        modal2Link.addEventListener('click', function() {
+        modal2Link.addEventListener('click', function () {
             errorMessageImage.style.display = 'none';
             errorMessageForm.style.display = 'none';
             validerButton.style.backgroundColor = ''; // Réinitialise la couleur du bouton
@@ -666,28 +692,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function addProject(event) {
     event.preventDefault();
-    console.log('addProject called');
 
-    const addProjetForm = document.querySelector('.new-picture');
+    const addProjetForm = document.querySelector('.new-picture'); // Sélection du formulaire
 
-    const token = sessionStorage.getItem("Token");
-    console.log('token:', token);
+    const token = sessionStorage.getItem("Token"); //Récupération du token
 
+    // Récupération des éléments du formulaire
     const titleNewProject = document.getElementById("titre").value;
     const categoryNewProject = parseInt(document.getElementById("categorie").value, 10);
     const imageNewProject = document.getElementById("pictures-preview").files[0];
 
+    //Vérifie que tous les éléments sont présents
     if (!titleNewProject || !categoryNewProject || !imageNewProject) {
         console.error('All fields are required.');
         return;
     }
 
+    // Créationn d'un nouvel objet pour stocker les données du formulaires
     const formData = new FormData();
     formData.append("title", titleNewProject);
     formData.append("category", categoryNewProject);
     formData.append('image', imageNewProject);
     console.log('formData:', formData);
 
+    //Envoi de l'objet 
     fetch("http://localhost:5678/api/works", {
         method: "POST",
         body: formData,
@@ -695,22 +723,22 @@ function addProject(event) {
             "Authorization": `Bearer ${token}`
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la requête : ' + response.status);
-        }
-        return response.json(); 
-    })
-    .then(data => {
-        
-        console.log('Projet ajouté avec succès:', data);
-      
-    })
-    .catch(error => {
-        
-        console.error('Erreur lors de l\'envoi du projet :', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la requête : ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            console.log('Projet ajouté avec succès:', data);
+
+        })
+        .catch(error => {
+
+            console.error('Erreur lors de l\'envoi du projet :', error);
+        });
 }
 
-
+//Lance l'envoi lorsqu'on appuie sur le bouton "valider"
 document.querySelector('.new-picture').addEventListener('submit', addProject);
